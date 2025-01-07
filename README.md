@@ -152,6 +152,26 @@ es6 modules are deferred by default in most browsers
 - песвдокласс - селектор:псевдокласс {...}
 - псеводэлемент - селектор:псеводоэлемент {...}
 
+### Специфичность селектора
+| Селектор                    | Синтаксис      | Специфичность | 
+| --------------------------- | ---------------| --------------| 
+| Встроенный стиль            | style={}       | 1000          |
+| Селектор id                 | #id            | 100           |
+| Селектор класса             | .classname     | 10            |
+| Селектор атрибутов          | d[ref='abc']   | 10            |
+| Селектор псевдокласса       | li:first-child | 10            |
+| Селектор тегов              | div            | 1             |
+| Селектор псеводоэлементов   | li:after       | 1             |
+
+### Способы центрирования
+| Метод                | Пример | 
+| -------------------- | ------ | 
+| Margin auto          | margin: 0 auto;  |
+| Flexbox              | display: flex; justify-content: center; align-items: center; |
+| Grid                 | display: grid; place-items: center; |
+| Absolute positioning | position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto; |
+| Transform translate  | position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); |
+
 ### Типы позицирования CSS?
 - static
 - relative
