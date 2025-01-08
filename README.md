@@ -130,6 +130,10 @@ es6 modules are deferred by default in most browsers
 ### Critical render path?
 воде это про то как браузер рендерит страницу.
 
+### Совокупное изменение макета (CLS) 
+дописать
+
+
 
 ## HTML
 ### Теги?
@@ -400,7 +404,34 @@ const p = new Promise((resolve) => resolve("resolved"));
 console.log(p.then(console.log)); // resolved
 ```
 
+### Class
+Функция super вызывает конструктор наследуемого класса в контексте текущего инстанса.
+
+### try catch finlaly
+try..catch работает только в синхронном коде. На момент запуска функции, назначенной через setTimeout, try..catch уже выполнится.
+
+### Генераторы и итераторы
+Только значения yield итерируются
+https://habr.com/ru/companies/ruvds/articles/417481/
+дописать
+
+### Symbol
+Ключ для объекта но не строка. Всегда уникальный. Позволяет избежать конфликта имена. Есть глобальные символы.
+
+https://devdocs.io/javascript/global_objects/symbol
+https://qna.habr.com/q/491123
+
+
+### Map, Set, Weakmap, Weakset
+Необходимость иметь ключами не только string, number и symbol.
+
+https://devdocs.io/javascript/global_objects/weakmap
+
+
 ## TypeScript
+### Structure vs Nominative
+дописать ?
+
 ### Утилитарные типы?
 - Partial<Type> ​
 - Required<Type> ​
@@ -412,6 +443,11 @@ console.log(p.then(console.log)); // resolved
 - Omit<Type, Keys>
 
 ### Отличие type от interface?
+Интерфейсы мержаться и наследуются.
+
+Что может тип что не может интерфейс?
+Абстрактный класс?
+
 дописать
 
 ### Отличие never от void?
@@ -426,7 +462,77 @@ never - функция не доводящая до return.
 type MyPick<T, Key extends keyof T> = { [k in Key]: T[k] }
 ```
 
+### Пример "условие"
+```JS
+type If<C extends Boolean, T, F> = C extends true ? T : F;
+
+type A = If<true, 1, 2>
+type B = If<false, 1, 2>
+
+type C = If<null, 1, 2>
+```
+
+### Пример "concat"
+```JS
+const tuple = [1] as const;
+
+type Concat<T extends readonly unknown[], U extends readonly unknown[]> = [...T, ...U];
+type Arr1 = Concat<[1],[2]>
+type Arr2 = Concat<typeof tuple,[2]>
+```
+
+
 ## React
+### Основное
+- Декларативнось
+- Комнонентность
+- Поток данных сверху вниз
+- Виртуальный дом
+
+### Почему ушли от классовых компонентов?
+- непонятные движения с super() и this
+- дублирование логики в методах жизненного цикла - didMount, didUpdate
+- wrapper hell и тут же непривычная для мозга композиция
+- кстомные хуки относительно удобный способ шарить логику
+- также есть абурдное мнение, что функциональные компоненты ускоряют первую отрисовку.
+
+### Что такое Reconciliation?
+Эвристический сравнения деревьев. Сравнивает элементы. Если разные строит новое дерево.
+
+дописать
+
+### Зачкем нужен forwardRef?
+forwardRef - дописать
+
+https://react.dev/learn/manipulating-the-dom-with-refs 
+
+### errorBoundary компонент
+didCatch - нельзя на хуках - почему?
+
+дописать
+
+### Оптимизация
+- на чанки - react lazy
+- кэширование запросов
+- S3 или Simple Storage Service - дописать
+  
+### Lazy, Suspense
+как работает https://youtu.be/FDAGYMiIEb8?si=7nUb3gcAQ1blqUXJ&t=44
+
+Инструктирует вебпак отделить код в отдельные бандлы. Отмечает бандлы динамическими импортами, это значит, что вебпак запрашивает эти бандлы только когда они используются. Пока онПендинг suspense показывает fallback. Лучший юзкейс - разбиение по роутерам. Использовать только для тех частей, которые не участвуют в critical render path.
+
+дописать
+
+### useEffect, useLayoutEffect
+найти тот видос где объясняют кейс когда useEffect запускается до пайнтига, а не после (вроде там связанно с рефлоу)
+
+дописать
+
+### Context
+плюс - избежать прос дриллинга. 
+минус - ренендер всех компонентов при изменении стейта контекста (этого можно минимизировать путем разбиения контестов, но у этого новые проблемы)
+лучше использовать для “легких” редко меняющихся состояний типа аунтификации, темы, языка.
+
 ### Способы принудительного рендера компонента?
 - изменение стейта
 - изменение key
@@ -467,6 +573,10 @@ type MyPick<T, Key extends keyof T> = { [k in Key]: T[k] }
 ### досту к ноде через ref и через querySelector - разница?
 Первый работает с механизмами реакт, второй идет напрямую.
 
+### Redux
+на архитектуре flux и кратко описать экшены редьюсеры мидлваре
+
+дописать
 
 ## Задачи
 ### object
